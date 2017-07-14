@@ -1,4 +1,5 @@
 const config = {
+    style: "zhende",
     saber: {
         title: "bilibili",
         href: "http://www.bilibili.com"
@@ -9,7 +10,7 @@ const config = {
     },
     lancer: {
         title: "steam",
-        href: "https://github.com/zhangsens"
+        href: "http://steamcommunity.com/id/upd_s/"
     },
     rider: {
         title: "Twitter",

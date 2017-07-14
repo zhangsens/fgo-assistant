@@ -27,10 +27,13 @@ body {
 .character {
     width: 350px;
     height: 420px;
+}
+
+.zhende {
     background: url("../img/63660241_0.png") no-repeat -15px 0px;
 }
 
-.character:hover {
+.zhende:hover {
     background-position: -370px 0px;
 }
 
@@ -94,6 +97,31 @@ body {
     background: url("../img/balloon_pink.png") no-repeat 0px -490px;
 }
 
-.inner {
+.inner {}
+
+.talk {
     padding: 0 10px;
+}
+
+.next {
+    border-right: 5px solid transparent;
+    border-top: 10px solid orange;
+    border-left: 5px solid transparent;
+    width: 0px;
+    position: relative;
+    bottom: 0;
+    right: -320;
+    animation: next 2s infinite;
+}
+
+@keyframes next {
+    0% {
+        bottom: 0
+    }
+    50% {
+        bottom: 10
+    }
+    100% {
+        bottom: 0
+    }
 }

@@ -1,5 +1,6 @@
 const config = require("./config.js");
-const dom = require("./dom")
+const dom = require("./dom");
+const talk = require("./talk");
 
 class nav {
 
@@ -8,11 +9,13 @@ class nav {
         console.log(arguments);
         const speed = 1;
         var animation;
+        var index = 0;
 
         opt.ele.appendChild(dom.frame);
         opt.ele.appendChild(dom.character);
 
-        dom.inner.innerHTML = this.Hello();
+        //dom.talk.innerHTML = talk.Hello();
+        this.game(talk.Hello(), 0);
 
         dom.frame.onclick = function(e) {
             e.preventDefault();
@@ -65,63 +68,40 @@ class nav {
 
 
         for (let i = 0; i < 7; i++) {
-            fgo[i].onmouseenter = function() {
-                console.log(1);
-                //cancelAnimationFrame(animation);
+            fgo[i].servant.onmouseenter = function() {
+                cancelAnimationFrame(animation);
             };
-            fgo[i].onmouseleave = function() {
-                console.log(2);
-                //animation = requestAnimationFrame(float);
+            fgo[i].servant.onmouseleave = function() {
+                cancelAnimationFrame(animation);
+                animation = requestAnimationFrame(float);
             };
         }
 
-    }
-
-    Hello() {
-        var _append = [`Hello!`, `Welcome to my home!`, `<a href=''></a>`];
-        return _append.join("<br>");
-    }
-
-    today() {
-        var date = new Date();
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        var _append = [`今天是 ${year} 年 ${month} 月 ${day} 号`, `今天的幻想乡也充满了和平呢`];
-        return _append.join("<br>");
-    }
-
-    talk() {
-        var talk_arr = [this.talk_1, this.talk_2];
-        return talk_arr;
-    }
-
-    talk_1() {
-        var _append = [`贞德强无敌`];
-        return _append.join("<br>");
-    }
-
-    talk_2() {
-        var _append = [`谁敢反对哈曼`, `就打爆他的狗头`];
-        return _append.join("<br>");
     }
 
     random() {
-        var event = Math.random() * (this.talk().length + 1);
+        var event = Math.random() * (talk.talk.length + 1);
         var _inner;
         switch (Math.round(event)) {
             case 0:
-                _inner = this.Hello();
+                _inner = talk.Hello();
                 break;
             case 1:
-                _inner = this.today();
+                _inner = talk.today();
                 break;
             default:
-                console.log(Math.round(event) - 2);
-                _inner = this.talk()[Math.round(event) - 2]();
+                _inner = talk[talk.talk[Math.round(event) - 2]]();
                 break;
         }
-        dom.inner.innerHTML = `${_inner}<br>`;
+        this.game(`${_inner}`, 0);
+    }
+
+    game(text, index) {
+        dom.talk.innerHTML = text.substr(0, index);
+        if (index < text.length) {
+            index++;
+            requestAnimationFrame(this.game.bind(this, text, index));
+        }
     }
 }
 
