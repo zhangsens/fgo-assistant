@@ -80,9 +80,9 @@ class nav {
     }
 
     random() {
-        var event = Math.random() * (talk.talk.length + 1);
+        var event = Math.random() * (talk.talk.length + 2);
         var _inner;
-        switch (Math.round(event)) {
+        switch (Math.floor(event)) {
             case 0:
                 _inner = talk.Hello();
                 break;
