@@ -7,6 +7,7 @@ class nav {
     constructor(opt) {
 
         console.log(arguments);
+        this.played = false;
         const speed = 1;
         var animation;
         var index = 0;
@@ -23,19 +24,19 @@ class nav {
         }.bind(this);
 
         dom.character.onmouseenter = function() {
-            cancelAnimationFrame(animation);
             for (let i = 0; i < 7; i++) {
                 dom.character.appendChild(fgo[i].servant);
                 fgo[i].servant.style.opacity = 1;
             }
-            requestAnimationFrame(float);
-        };
+            this.played = true;
+            float();
+        }.bind(this);
         dom.character.onmouseleave = function() {
             for (let i = 0; i < 7; i++) {
                 fgo[i].servant.style.opacity = 0;
             }
-            //cancelAnimationFrame(animation);
-        };
+            this.played = false;
+        }.bind(this);
 
 
         var fgo = [];
@@ -49,8 +50,18 @@ class nav {
             data.speed_x = Math.random() * 1 - 0.5;
             data.speed_y = Math.random() * 1 - 0.5;
             fgo.push(data);
+
+            fgo[i].servant.onmouseenter = function() {
+                this.played = false;
+            }.bind(this);
+            fgo[i].servant.onmouseleave = function() {
+                this.played = true;
+                float();
+            }.bind(this);
         }
+
         var float = () => {
+
             for (let i = 0; i < 7; i++) {
                 if (fgo[i].left + fgo[i].speed_x < 0 || fgo[i].left + fgo[i].speed_x > 300) {
                     fgo[i].speed_x = -fgo[i].speed_x;
@@ -63,18 +74,10 @@ class nav {
                 fgo[i].servant.style.top = fgo[i].top;
                 fgo[i].servant.style.left = fgo[i].left;
             }
-            animation = requestAnimationFrame(float);
-        }
 
-
-        for (let i = 0; i < 7; i++) {
-            fgo[i].servant.onmouseenter = function() {
-                cancelAnimationFrame(animation);
-            };
-            fgo[i].servant.onmouseleave = function() {
-                cancelAnimationFrame(animation);
-                animation = requestAnimationFrame(float);
-            };
+            if (this.played) {
+                requestAnimationFrame(float);
+            }
         }
 
     }
